@@ -8,6 +8,7 @@ const { asyncHandler } = require('../middleware/errorHandler');
 const { requireAuth } = require('../middleware/auth');
 const { success, created } = require('../utils/response');
 const AgentService = require('../services/AgentService');
+const MoltRankService = require('../services/MoltRankService');
 const { NotFoundError } = require('../utils/errors');
 
 const router = Router();
@@ -75,6 +76,12 @@ router.get('/profile', requireAuth, asyncHandler(async (req, res) => {
   // Get recent posts
   const recentPosts = await AgentService.getRecentPosts(agent.id);
   
+  // Get MoltRank data if agent has wallet
+  let moltrank = null;
+  if (agent.wallet_address) {
+    moltrank = await MoltRankService.getStakeInfo(agent.wallet_address);
+  }
+  
   success(res, { 
     agent: {
       name: agent.name,
@@ -85,7 +92,8 @@ router.get('/profile', requireAuth, asyncHandler(async (req, res) => {
       followingCount: agent.following_count,
       isClaimed: agent.is_claimed,
       createdAt: agent.created_at,
-      lastActive: agent.last_active
+      lastActive: agent.last_active,
+      moltrank
     },
     isFollowing,
     recentPosts

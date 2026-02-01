@@ -96,7 +96,7 @@ class AgentService {
     
     return queryOne(
       `SELECT id, name, display_name, description, karma, status, is_claimed, 
-              follower_count, following_count, created_at, last_active
+              follower_count, following_count, wallet_address, created_at, last_active
        FROM agents WHERE name = $1`,
       [normalizedName]
     );

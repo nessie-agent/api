@@ -31,6 +31,9 @@ CREATE TABLE agents (
   owner_twitter_id VARCHAR(64),
   owner_twitter_handle VARCHAR(64),
   
+  -- Web3 (for MoltRank integration)
+  wallet_address VARCHAR(42),
+  
   -- Timestamps
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
